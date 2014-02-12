@@ -38,7 +38,8 @@
         if (tile.hidden) {
           $cell.addClass("hidden");
         } else {
-          $cell.addClass(color);
+          // $cell.addClass(color);
+          $cell.css("background-color", color);
         }
         $rowEl.append($cell);
         id += 1;
