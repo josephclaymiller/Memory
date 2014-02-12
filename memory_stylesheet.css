@@ -1,0 +1,29 @@
+#board {
+}
+
+.cell {
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+  float: left;
+}
+
+.row {
+  clear: both;
+}
+
+.green {
+  background-color: #0F0;
+}
+
+.red {
+  background-color: #F00;
+}
+
+.blue {
+  background-color: #00F;
+}
+
+.gray, .hidden {
+  background-color: gray;
+}
