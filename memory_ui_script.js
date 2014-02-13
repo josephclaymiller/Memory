@@ -5,6 +5,9 @@
     this.$el = el;
     
     this.board = null;
+    this.clickNum = 0;
+    this.firstTile = null;
+    this.secondTile = null;
   };
   
   View.prototype.buildGrid = function(rowSize, colSize) {
@@ -62,12 +65,32 @@
     this.render();
   }
   
+  View.prototype.removeClickEvents = function() {
+    $('.cell').off('click');
+  };
+  
   View.prototype.handleClickEvents = function() {
     var game = this;
     // add click event handler to each cell
     $('.cell').on('click', function(event){
       // console.log("clicked cell", event.currentTarget);
       game.flip(event.currentTarget);
+      // console.log("click", game.clickNum);
+      if (game.clickNum === 0) {
+        game.firstTile = event.currentTarget;
+      } else {
+        game.secondTile = event.currentTarget;
+        // stop click events
+        game.removeClickEvents();
+        // set timer to flip two tiles back over
+        this.flipTimer = window.setTimeout(function(){
+          console.log(game.firstTile);
+          console.log(game.secondTile);
+          game.flip(game.firstTile);
+          game.flip(game.secondTile);
+        }, 1000);
+      }
+      game.clickNum = ((game.clickNum + 1) % 2);
     });
   };
   

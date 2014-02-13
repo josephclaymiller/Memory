@@ -59,14 +59,14 @@
       indices[rand] = temp;
       i += 1;
     }
-    console.log("indices:",indices);
+    // console.log("indices:",indices);
     for (var p = 0; p < Math.floor(numTiles/2); p++) {
       var p1 = indices.pop();
       var p2 = indices.pop();
       var pair = [p1, p2];
       pairs.push(pair);
     }
-    console.log("pairs", pairs);
+    // console.log("pairs", pairs);
     return pairs;
   };
   
@@ -74,8 +74,8 @@
     var r = Math.floor(Math.random() * 255);
     var g = Math.floor(Math.random() * 255);
     var b = Math.floor(Math.random() * 255);
-    var colorString = "rgb(" + r + ", " + g + ", " + b + ")";
-    console.log(colorString);
+    var colorString = "rgb(" + [r, g, b].join(", ") + ")";
+    // console.log(colorString);
     return colorString;
   };
   
