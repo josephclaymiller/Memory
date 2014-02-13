@@ -6,8 +6,6 @@
     
     this.board = null;
     this.clickNum = 0;
-    this.firstTile = null;
-    this.secondTile = null;
   };
   
   View.prototype.buildGrid = function(rowSize, colSize) {
@@ -27,7 +25,6 @@
     var view = this;
     var board = view.board;
     var tiles = board.tiles;
-    // console.log("board tiles", tiles);
     // remove last board
     this.$el.empty(); 
     // build board
@@ -41,7 +38,6 @@
         if (tile.hidden) {
           $cell.addClass("hidden");
         } else {
-          // $cell.addClass(color);
           $cell.css("background-color", color);
         }
         $rowEl.append($cell);
@@ -49,19 +45,17 @@
       });
       view.$el.append($rowEl);
     });
-    this.handleClickEvents(); // add click event handlers to new cells
+    view.handleClickEvents(); // add click event handlers to new cells
+    view.setScore(board.score);
   };
   
   View.prototype.start = function() {
-    // console.log("Started game of Memory");
-    this.board = new MemoryGame.Board(2, 4);
+    this.board = new MemoryGame.Board(3, 4);
     this.render();
   };
   
   View.prototype.flip = function(div) {
-    // console.log("flip tile", div.id);
-    // console.log(this.board.tiles[div.id]);
-    this.board.tiles[div.id].flip();
+    this.board.tiles[div.id].flip(this.clickNum);
     this.render();
   }
   
@@ -70,28 +64,26 @@
   };
   
   View.prototype.handleClickEvents = function() {
-    var game = this;
+    var view = this;
+    var board = view.board;
     // add click event handler to each cell
     $('.cell').on('click', function(event){
-      // console.log("clicked cell", event.currentTarget);
-      game.flip(event.currentTarget);
-      // console.log("click", game.clickNum);
-      if (game.clickNum === 0) {
-        game.firstTile = event.currentTarget;
-      } else {
-        game.secondTile = event.currentTarget;
-        // stop click events
-        game.removeClickEvents();
+      view.flip(event.currentTarget);
+      if (view.clickNum === 1) {
+        // stop click events every second click
+        view.removeClickEvents(); 
         // set timer to flip two tiles back over
-        this.flipTimer = window.setTimeout(function(){
-          console.log(game.firstTile);
-          console.log(game.secondTile);
-          game.flip(game.firstTile);
-          game.flip(game.secondTile);
+        view.flipTimer = window.setTimeout(function(){
+          view.flip(board.firstTile);
+          view.flip(board.secondTile);
         }, 1000);
       }
-      game.clickNum = ((game.clickNum + 1) % 2);
+      view.clickNum = ((view.clickNum + 1) % 2);
     });
+  };
+  
+  View.prototype.setScore = function(score) {
+    $('#score').text("score:" + score);
   };
   
 })(this);
