@@ -7,10 +7,18 @@
     this.hidden = true;
     
     this.board = board;
+    
+    this.matched = false;
   };
   
   Tile.prototype.flip = function(clickNum) {
     // console.log("flip");
+    var game = this.board;
+    if (clickNum === 0) {
+      game.firstTile = this;
+    } else {
+      game.secondTile = this;
+    }
     if (this.hidden) {
       this.unhide(clickNum);
     } else {
@@ -26,13 +34,9 @@
   Tile.prototype.unhide = function(clickNum) {
     // set this tile as the first or second tile selected
     var game = this.board;
-    // console.log("tile board", game);
-    if (clickNum === 0) {
-      game.firstTile = this;
-    } else {
-      game.secondTile = this;
-      // check if tiles matching
-      game.secondTile.checkMatch(game.firstTile);
+    // check if tiles matching on second click
+    if (clickNum === 1) {
+      game.firstTile.checkMatch(game.secondTile);
     }
   };
   
@@ -40,6 +44,8 @@
     if ((this.color === tile.color) && (this !== tile)) {
       // console.log("Tiles match");
       this.board.score += 1;
+      this.matched = true;
+      tile.matched = true;
     }
   };
   

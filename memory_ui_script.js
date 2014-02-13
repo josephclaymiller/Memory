@@ -40,6 +40,9 @@
         } else {
           $cell.css("background-color", color);
         }
+        if (tile.matched) {
+          $cell.css("visibility", "hidden");
+        }
         $rowEl.append($cell);
         id += 1;
       });
