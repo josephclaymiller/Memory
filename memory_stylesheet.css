@@ -11,9 +11,10 @@
 
 .message {
   vertical-align: middle;
-  font-size: 1.5em;
+  font-size: 1.25em;
   text-align: center;
-  color: white; 
+  color: #fee; 
+  line-height:4em;
 }
 
 .row {
