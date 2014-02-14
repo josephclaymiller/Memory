@@ -8,14 +8,11 @@
     this.clickNum = 0;
   };
   
-  View.prototype.buildGrid = function(rowSize, colSize) {
+  View.prototype.buildMessageGrid = function(rowSize, colSize) {
     var board = this;
-    var i = 0; // cell id number
     return _.times(rowSize, function(){
       return _.times(colSize, function(){
-        $div = $('<div class="cell"></div>');
-        $div.attr('id', i);
-        i += 1;
+        $div = $('<div class="message"></div>');
         return $div;
       }); 
     });
@@ -29,27 +26,27 @@
     this.$el.empty(); 
     // build board
     var id = 0;  
-    var cellGrid = this.buildGrid(board.row, board.col);
-    _(cellGrid).each(function(row) {
+    var messageGrid = this.buildMessageGrid(board.row, board.col);
+    _(messageGrid).each(function(row) {
       var $rowEl = $('<div class="row"></div>');
-      _(row).each(function($cell) { 
+      _(row).each(function($message) { 
+        $div = $('<div class="cell"></div>');
+        $div.attr('id', id);
         var tile = tiles[id];
-        var color = tile.color;
-        if (tile.hidden) {
-          $cell.addClass("hidden");
-        } else {
-          $cell.css("background-color", color);
+        if (!tile.hidden) {
+          $message.text(tile.message);
         }
-        if (tile.matched) {
-          $cell.css("visibility", "hidden");
+        $div.append($message); // add message to message
+        if (tile.matched) { // hide message if matched
+          $div.css("visibility", "hidden");
         }
-        $rowEl.append($cell);
+        $rowEl.append($div);
         id += 1;
       });
       view.$el.append($rowEl);
     });
     view.handleClickEvents(); // add click event handlers to new cells
-    view.setScore(board.score);
+    // view.setScore(board.score);
   };
   
   View.prototype.start = function() {
@@ -58,6 +55,7 @@
   };
   
   View.prototype.flip = function(div) {
+    console.log(div);
     this.board.tiles[div.id].flip(this.clickNum);
     this.render();
   }

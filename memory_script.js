@@ -3,12 +3,13 @@
   
   var Tile = MemoryGame.Tile = function(id, board) {
     this.id = id;
-    this.color = "white";
     this.hidden = true;
     
     this.board = board;
     
     this.matched = false;
+    
+    this.message = "hi";
   };
   
   Tile.prototype.flip = function(clickNum) {
@@ -41,7 +42,7 @@
   };
   
   Tile.prototype.checkMatch = function(tile) {
-    if ((this.color === tile.color) && (this !== tile)) {
+    if ((this.message === tile.message) && (this !== tile)) {
       // console.log("Tiles match");
       this.board.score += 1;
       this.matched = true;
@@ -58,7 +59,7 @@
     this.tiles = this.makeTiles(numTiles, this);
     this.pairs = this.makePairs(numTiles);
     
-    this.colorTiles();
+    this.addMessages();
     
     this.score = 0;
 
@@ -99,23 +100,33 @@
     return pairs;
   };
   
-  Board.prototype.randomColor = function() {
-    var r = Math.floor(Math.random() * 255);
-    var g = Math.floor(Math.random() * 255);
-    var b = Math.floor(Math.random() * 255);
-    var colorString = "rgb(" + [r, g, b].join(", ") + ")";
-    return colorString;
+  MemoryGame.MESSAGES = [
+  "I <3 U",
+  "Q T Pi",
+  "Love",
+  "Hugs",
+  "Kisses",
+  "Be Mine",
+  "Sweetie",
+  "Hot Stuff",
+  "<3",
+  "XOXO"
+  ];
+  
+  Board.prototype.randomMessage = function() {
+    var messageNum = Math.floor(Math.random() * MemoryGame.MESSAGES.length);
+    return MemoryGame.MESSAGES[messageNum];
   };
   
-  Board.prototype.colorTiles = function() {
+  Board.prototype.addMessages = function() {
     var board = this;
     var tiles = board.tiles;
     _(this.pairs).each(function(pair) {
       var tile1 = tiles[pair[0]];
       var tile2 = tiles[pair[1]];
-      var color = board.randomColor();
-      tile1.color = color;
-      tile2.color = color;
+      var message = board.randomMessage();
+      tile1.message = message;
+      tile2.message = message;
     });
   };
 })(this);

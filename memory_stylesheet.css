@@ -2,16 +2,20 @@
 }
 
 .cell {
+  background-image: url("images/heart_candy.png");
   width: 100px;
   height: 100px;
-  border: 1px solid black;
   float: left;
+/*  border: 1px solid black;*/
+}
+
+.message {
+  vertical-align: middle;
+  font-size: 1.5em;
+  text-align: center;
+  color: white; 
 }
 
 .row {
   clear: both;
-}
-
-.hidden {
-  background-color: gray;
 }
